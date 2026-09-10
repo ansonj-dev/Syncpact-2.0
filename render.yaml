@@ -1,0 +1,59 @@
+services:
+  # Backend API Service
+  - type: web
+    name: syncpact-api
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: node dist-server/server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: NETWORK
+        value: testnet
+      - key: CHAIN_ID
+        value: 50312
+      - key: RPC_URL
+        value: https://dream-rpc.somnia.network
+      - key: WS_RPC_URL
+        value: wss://dream-rpc.somnia.network/ws
+      - key: INDEXER_URL
+        value: https://prd.smk.somnia.host/v1/graphql
+      - key: ENABLE_LIVE_TRADING
+        value: false
+      - key: DB_PATH
+        value: /opt/render/project/data/syncpact.json
+      # These need to be added manually in Render Dashboard as secrets:
+      # - PRIVATE_KEY (optional, only if enabling live trading)
+      # - AI_BASE_URL (optional)
+      # - AI_API_KEY (optional)
+      # - AI_MODEL (optional)
+    disk:
+      name: syncpact-data
+      mountPath: /opt/render/project/data
+      sizeGB: 1
+
+  # Frontend Static Site Service  
+  - type: web
+    name: syncpact-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://syncpact-api.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html

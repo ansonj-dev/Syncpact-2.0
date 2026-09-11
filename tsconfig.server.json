@@ -11,8 +11,9 @@
   },
   "include": [
     "server/**/*.ts",
-    "packages/**/*.ts",
-    "scripts/**/*.ts",
     "src/engine.ts"
+  ],
+  "exclude": [
+    "scripts/**/*.ts"
   ]
 }

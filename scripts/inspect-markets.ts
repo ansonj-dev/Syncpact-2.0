@@ -17,7 +17,7 @@ for (const m of rows.slice(0, 50)) {
       expiry: m.expiry,
       status: on.status,
       pool: m.poolAddress,
-      outcomes: m.outcomes?.map((x: any) => x.symbol),
+      outcomes: (m as any).outcomes?.map((x: any) => x.symbol),
     }),
   );
 }

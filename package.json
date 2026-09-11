@@ -11,7 +11,7 @@
     "typecheck": "tsc -p tsconfig.server.json --noEmit && tsc -p tsconfig.client.json --noEmit",
     "inspect:markets": "tsx scripts/inspect-markets.ts",
     "test": "tsx scripts/test-all.ts",
-    "start": "node scripts/ensure-data-dir.js && node dist/server/index.js",
+    "start": "node scripts/ensure-data-dir.js && node dist-server/server/index.js",
     "prestart": "node scripts/ensure-data-dir.js"
   },
   "dependencies": {

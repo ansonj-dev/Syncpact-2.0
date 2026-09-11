@@ -332,4 +332,9 @@ app.post('/api/execute', async (req, r) => {
     r.status(400).json({ error: String(e) });
   }
 });
-app.listen(port, () => console.log(`SyncPact API http://localhost:${port}`));
+// Serve the Vite production frontend
+app.use(express.static('dist'));
+
+app.listen(port, '0.0.0.0', () =>
+  console.log(`SyncPact API listening on port ${port}`)
+);
